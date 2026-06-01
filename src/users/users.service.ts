@@ -15,6 +15,10 @@ export class UsersService {
       where: {
         email,
       },
+      select: {
+        email: true,
+        password: true,
+      },
     });
 
     if (!user) {

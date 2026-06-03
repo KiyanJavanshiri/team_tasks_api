@@ -16,14 +16,12 @@ export class UsersService {
         email,
       },
       select: {
-        email: true,
+        id: true,
         password: true,
+        name: true,
+        avatar: true,
       },
     });
-
-    if (!user) {
-      throw new NotFoundException(`user with email ${email} was not found`);
-    }
 
     return user;
   }

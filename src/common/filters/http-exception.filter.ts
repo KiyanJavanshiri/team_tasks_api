@@ -16,7 +16,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
     const message = exception.message;
     const stack = exception.stack;
-    const timestamp = Date.now().toLocaleString();
+    const timestamp = new Date().toISOString();
 
     this.logger.error(
       `[${timestamp}] [ERROR] status: ${status}, message: ${message}, stack: ${stack}`,

@@ -22,7 +22,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const stack = exception.stack as string;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const message = exception.message as string;
-    const timestamp = Date.now().toLocaleString();
+    const timestamp = new Date().toISOString();
 
     this.logger.error(
       `[${timestamp}] [ERROR] status: ${status}, message: ${message}, stack: ${stack}`,

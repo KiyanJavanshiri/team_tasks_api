@@ -1,7 +1,9 @@
+import { WorkspaceMember } from 'src/workspaces/entities/workspaceMembers.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -21,6 +23,9 @@ export class User {
 
   @Column({ type: 'text', nullable: true })
   avatar: string;
+
+  @OneToMany(() => WorkspaceMember, (workspaceMember) => workspaceMember.user)
+  workspaceMembers: WorkspaceMember[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { TRequestUserMetadata } from 'src/utils/types';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -18,9 +19,8 @@ export class AuthGuard implements CanActivate {
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      const payload = (await this.jwtService.verifyAsync(
-        token,
-      )) as JwtPayload & { id: number; name: string };
+      const payload = (await this.jwtService.verifyAsync(token)) as JwtPayload &
+        TRequestUserMetadata['user'];
 
       request['user'] = payload;
     } catch {

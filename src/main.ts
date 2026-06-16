@@ -4,6 +4,7 @@ import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ResponseTransformInterceptor } from './common/interceptors/response-transform.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function start() {
   const app = await NestFactory.create(AppModule);
@@ -28,6 +29,14 @@ async function start() {
   );
   app.useGlobalFilters(new GlobalExceptionFilter(), new HttpExceptionFilter());
   app.useGlobalInterceptors(new ResponseTransformInterceptor());
+  const config = new DocumentBuilder()
+    .setTitle('Team Task API')
+    .setDescription('API like Trello or Jira')
+    .setVersion('v1')
+    .build();
+  const document = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, document);
+
   const PORT = process.env.APP_PORT ?? 5000;
   await app.listen(PORT, () => {
     console.log(`server is running on port ${PORT}`);

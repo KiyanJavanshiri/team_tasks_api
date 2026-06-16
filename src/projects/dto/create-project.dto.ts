@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsDateString,
   IsEnum,
@@ -9,6 +10,12 @@ import {
 import { ProjectStatus } from 'src/common/enums/project-status.enum';
 
 export class CreateProjectDto {
+  @ApiProperty({
+    example: 'Backend API design',
+    maxLength: 40,
+    minLength: 6,
+    description: 'Name of the project',
+  })
   @IsString({
     message: '$property should be string',
   })
@@ -18,6 +25,11 @@ export class CreateProjectDto {
   })
   name: string;
 
+  @ApiPropertyOptional({
+    example: 'To design API for backend',
+    description: 'Description of the project',
+    maxLength: 70,
+  })
   @IsOptional()
   @IsString({
     message: '$property should be string',
@@ -27,11 +39,22 @@ export class CreateProjectDto {
   })
   description?: string;
 
+  @ApiPropertyOptional({
+    example: 'active',
+    description: 'Status of the project',
+    enum: ProjectStatus,
+    default: ProjectStatus.ACTIVE,
+  })
+  @IsOptional()
   @IsEnum(ProjectStatus, {
     message: '$property should have correct status',
   })
-  status: ProjectStatus;
+  status?: ProjectStatus;
 
+  @ApiProperty({
+    example: '01-02-2003',
+    description: 'Start date of the project',
+  })
   @IsDateString(
     {},
     {
@@ -40,6 +63,10 @@ export class CreateProjectDto {
   )
   startDate: Date;
 
+  @ApiPropertyOptional({
+    example: '31-02-2003',
+    description: 'Deadline of the project',
+  })
   @IsOptional()
   @IsDateString(
     {},

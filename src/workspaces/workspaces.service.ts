@@ -58,6 +58,18 @@ export class WorkspacesService {
     });
   }
 
+  async removeUsersWorkspace(workspaceId: number) {
+    return await this.dataSource.transaction(async (manager) => {
+      await manager.delete(Workspace, {
+        id: workspaceId,
+      });
+
+      await manager.delete(WorkspaceMember, {
+        workspaceId,
+      });
+    });
+  }
+
   async getAllWorkspaceMembers(workspaceId: number) {
     return await this.workspaceMemberRepository.find({
       where: {

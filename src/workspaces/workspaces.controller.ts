@@ -39,6 +39,16 @@ export class WorkspacesController {
     return this.workspaceService.createUsersWorkspace(dto, userId);
   }
 
+  @Delete(':workspaceId')
+  @Roles(MembersRoles.OWNER)
+  @UseGuards(RoleGuard)
+  @HttpCode(204)
+  async removeUsersWorkspace(
+    @Param('workspaceId', ParseIntPipe) workspaceId: number,
+  ) {
+    await this.workspaceService.removeUsersWorkspace(workspaceId);
+  }
+
   @Post(':workspaceId/member/:userId')
   @Roles(MembersRoles.OWNER)
   @UseGuards(RoleGuard)

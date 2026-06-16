@@ -1,9 +1,7 @@
 import {
-  IsDate,
+  IsDateString,
   IsEnum,
-  IsInt,
   IsOptional,
-  IsPositive,
   IsString,
   Length,
   MaxLength,
@@ -34,22 +32,20 @@ export class CreateProjectDto {
   })
   status: ProjectStatus;
 
-  @IsDate({
-    message: '$property should be date',
-  })
+  @IsDateString(
+    {},
+    {
+      message: '$property should be date',
+    },
+  )
   startDate: Date;
 
   @IsOptional()
-  @IsDate({
-    message: '$property should be date',
-  })
+  @IsDateString(
+    {},
+    {
+      message: '$property should be date',
+    },
+  )
   deadline?: Date;
-
-  @IsInt({
-    message: '$property should be integer',
-  })
-  @IsPositive({
-    message: '$property should be positive number',
-  })
-  workspaceId: number;
 }

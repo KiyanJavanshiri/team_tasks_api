@@ -24,7 +24,7 @@ export class Project {
   @Column({
     type: 'enum',
     enum: ProjectStatus,
-    default: () => ProjectStatus.ACTIVE,
+    default: ProjectStatus.ACTIVE,
   })
   status: ProjectStatus;
 
@@ -34,7 +34,12 @@ export class Project {
   @Column({ type: 'date', nullable: true })
   deadline: Date;
 
-  @ManyToOne(() => Workspace, (workspace) => workspace.projects)
+  @Column()
+  workspaceId: number;
+
+  @ManyToOne(() => Workspace, (workspace) => workspace.projects, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'workspaceId' })
   workspace: Workspace;
 

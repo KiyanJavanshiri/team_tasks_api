@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -34,6 +35,7 @@ export class Project {
   deadline: Date;
 
   @ManyToOne(() => Workspace, (workspace) => workspace.projects)
+  @JoinColumn({ name: 'workspaceId' })
   workspace: Workspace;
 
   @CreateDateColumn()

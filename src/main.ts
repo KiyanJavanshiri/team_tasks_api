@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ResponseTransformInterceptor } from './common/interceptors/response-transform.interceptor';
@@ -12,6 +12,18 @@ async function start() {
     new ValidationPipe({
       transform: true,
       whitelist: false,
+      exceptionFactory: (errors) => {
+        let message = '';
+
+        errors.forEach((error) => {
+          message += `${error.property}: \n`;
+          for (const key in error.constraints) {
+            message += `${key}: ${error.constraints[key]}\n`;
+          }
+        });
+
+        return new BadRequestException(message);
+      },
     }),
   );
   app.useGlobalFilters(new GlobalExceptionFilter(), new HttpExceptionFilter());

@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { WorkspaceMember } from './workspaceMembers.entity';
+import { Project } from 'src/projects/projects.entity';
 
 @Entity('workspaces')
 export class Workspace {
@@ -24,6 +25,9 @@ export class Workspace {
     (workspaceMember) => workspaceMember.workspace,
   )
   workspaceMembers: WorkspaceMember[];
+
+  @OneToMany(() => Project, (project) => project.workspace)
+  projects: Project[];
 
   @CreateDateColumn()
   createdAt: Date;
